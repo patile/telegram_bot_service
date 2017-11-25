@@ -5,7 +5,7 @@ class Photo2Down:
     def __init__(self, TOKEN):
         self.TOKEN = TOKEN
 
-    def download(self, file_id):
+    def download_and_save(self, file_id,file_name):
 
         file_meta_data = requests.get("https://api.telegram.org/bot{}/getFile?file_id={}".format(self.TOKEN,
                                                                                                  file_id))  ## resme ait meta data boyut,path vs
@@ -20,9 +20,11 @@ class Photo2Down:
             if file_data.status_code != 200:
                 return "ERROR Code {}".format(file_data.status_code)
             else:
-                self.create_jpeg(file_data.content, file_path.split('/')[1])  ## bu binary dosyaya yazılıyor.
+                self.create_jpeg(file_data.content, file_name=file_name)  ## bu binary dosyaya yazılıyor.
 
-    def create_jpeg(self, binary_content, file_name):
+
+
+    def create_jpeg(self, binary_content,file_name):
         file = open("{}".format(file_name), "wb")
         file.write(binary_content)
         file.close()

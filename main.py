@@ -1,19 +1,18 @@
 import telegram
 import threading
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
-from config import config
 from telegram_photo_wrapper import Photo2Down
 from location import Location
 from message.message_methods import SendWarning
+import math
 
 
-
-
-
-TOKEN = config["TOKEN"]
+TOKEN = "399989817:AAGvj_tw7gcRCBdpI68L11uvafH6fHSEoF4"
 updater = Updater(token=TOKEN)
 dispatcher = updater.dispatcher
 sender = SendWarning()
+photo_wrapper = Photo2Down(TOKEN=TOKEN)
+
 class Test:
     def __init__(self):
         self.ihbar_data = {}
@@ -30,10 +29,15 @@ class Test:
     def Start(self,bot, update):
         bot.sendMessage(chat_id=update.message.chat_id, text = "Hello Test.")
 
-    def test2(self,bot,update):
-        file_id = update.message.photo[0] 
 
-        print(file_id.file_id)
+
+
+
+
+
+    def test2(self,bot,update):
+        file_id = update.message.photo[2].file_id
+        print(file_id)
 
     def aciklama(self,bot,update): ### aciklama datasini cekiyoruz
 
@@ -47,30 +51,28 @@ class Test:
 
     def parse_geolocation(self, bot, update):
 
-        self.location_obj.set_location(update.message.location)  ##setting location
+        geolocation_data = update.message.location  ##setting location
         tmp_ihbar_location = {}#tmp ihbar_location
 
-        self.ihbar_data['latitude'] = self.location_obj.get_location()["latitude"]
-        self.ihbar_data['longitude'] = self.location_obj.get_location()["longitude"]
+        self.ihbar_data['latitude'] = geolocation_data["latitude"]
+        self.ihbar_data['longitude'] = geolocation_data["longitude"]
+
 
         if self.ihbar_data["longitude"] == '' or self.ihbar_data['latitude']:
             ##bot send message
             bot.sendMessage(chat_id=update.message.chat_id, ##validation koordinat data
                             text="Lütfen Konum Bilginizi Doğru Giriniz")
 
-        self.ihbar_data['aciklama'] = self.txt
+        self.ihbar_data['description'] = self.txt
+
+
+        url = photo_wrapper.download_and_save(file_id=self.image_id,file_name=str("asdasdasd"))
 
         try:
             sender.warning_publish(warning_json=self.ihbar_data)
             print("Hnaled")###loggging
         except:
             print("Error")
-        ####location son islem oldugu icin sikinti yok
-
-
-
-
-
 
 
 
