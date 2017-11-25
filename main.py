@@ -4,12 +4,19 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from config import config
 from telegram_photo_wrapper import Photo2Down
 from location import Location
+from message.message_methods import SendWarning
+
+
+
+
+
 TOKEN = config["TOKEN"]
 updater = Updater(token=TOKEN)
 dispatcher = updater.dispatcher
-
+sender = SendWarning()
 class Test:
     def __init__(self):
+        self.ihbar_data = {}
         self.location_obj = Location()
         self.flag = 0
         self.txt = ""
@@ -42,9 +49,15 @@ class Test:
         self.location_obj.set_location(update.message.location)  ##setting location
         tmp_ihbar_location = {}#tmp ihbar_location
 
-        tmp_ihbar_location['latitude'] = self.location_obj.get_location()["latitude"]
-        tmp_ihbar_location['longitude'] = self.location_obj.get_location()["longitude"]
+        self.ihbar_data['latitude'] = self.location_obj.get_location()["latitude"]
+        self.ihbar_data['longitude'] = self.location_obj.get_location()["longitude"]
+        self.ihbar_data['aciklama'] = self.txt
 
+        try:
+            sender.warning_publish(warning_json=self.ihbar_data)
+            print("Hnaled")###loggging
+        except:
+            print("Error")
         ####location son islem oldugu icin sikinti yok
 
 
