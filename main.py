@@ -7,7 +7,7 @@ from message.message_methods import SendWarning
 import math
 
 
-TOKEN = "MY_TOKEN"
+TOKEN = "399989817:AAGvj_tw7gcRCBdpI68L11uvafH6fHSEoF4"
 updater = Updater(token=TOKEN)
 dispatcher = updater.dispatcher
 sender = SendWarning()
@@ -54,7 +54,7 @@ class Test:
         self.ihbar_data['latitude'] = geolocation_data["latitude"]
         self.ihbar_data['longitude'] = geolocation_data["longitude"]
 
-
+        print(self.ihbar_data)
         if self.ihbar_data["longitude"] == '' or self.ihbar_data['latitude']:
             ##bot send message
             bot.sendMessage(chat_id=update.message.chat_id, ##validation koordinat data

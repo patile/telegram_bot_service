@@ -28,4 +28,8 @@ class Photo2Down:
         file = open("{}".format(file_name), "wb")
         file.write(binary_content)
         file.close()
+TOKEN = "399989817:AAGvj_tw7gcRCBdpI68L11uvafH6fHSEoF4"
 
+
+x = Photo2Down(TOKEN=TOKEN)
+x.download_and_save(file_id="AgADBAADQqwxG3KRyVCpyGZI8MhbREAP-hkABJkX8BBQAmvKlqwDAAEC",file_name="asdasd.png")

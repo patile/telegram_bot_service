@@ -2,6 +2,7 @@ import pika, os
 import json
 import psycopg2
 import math
+
 from db_config import config
 
 
@@ -32,7 +33,8 @@ def distance(lat1, long1, lat2, long2):
         lat2)
     c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
     d = R * c
-    return d
+    return d###send to js side with ajax and time interval .
+
 
 
 def ihbar_handler(ch, method, properties, body):
@@ -40,13 +42,20 @@ def ihbar_handler(ch, method, properties, body):
     my_json = body.decode('utf8').replace("'", '"')
     main_json = json.loads(my_json)
 
+
     for vet_data in vet_datas :
         tmp_distance_data = distance(main_json["latitude"],main_json["longitude"],int(vet_data[2]),int(vet_data[3]))
 
+
+
+    #### Simple Put Process.
         if tmp_distance_data <= 1:
-            print("HOOOO")
+            pass
         else:
-            print("HAAA")
+            pass
+
+
+
 
 
 channel.basic_consume(ihbar_handler,
