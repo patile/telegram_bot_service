@@ -46,11 +46,18 @@ class Test:
 
 
     def parse_geolocation(self, bot, update):
+
         self.location_obj.set_location(update.message.location)  ##setting location
         tmp_ihbar_location = {}#tmp ihbar_location
 
         self.ihbar_data['latitude'] = self.location_obj.get_location()["latitude"]
         self.ihbar_data['longitude'] = self.location_obj.get_location()["longitude"]
+
+        if self.ihbar_data["longitude"] == '' or self.ihbar_data['latitude']:
+            ##bot send message
+            bot.sendMessage(chat_id=update.message.chat_id, ##validation koordinat data
+                            text="Lütfen Konum Bilginizi Doğru Giriniz")
+
         self.ihbar_data['aciklama'] = self.txt
 
         try:
