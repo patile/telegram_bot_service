@@ -7,7 +7,7 @@ from message.message_methods import SendWarning
 import math
 
 
-TOKEN = "399989817:AAGvj_tw7gcRCBdpI68L11uvafH6fHSEoF4"
+TOKEN = "MY_TOKEN"
 updater = Updater(token=TOKEN)
 dispatcher = updater.dispatcher
 sender = SendWarning()
@@ -31,13 +31,10 @@ class Test:
 
 
 
-
-
-
-
     def test2(self,bot,update):
-        file_id = update.message.photo[2].file_id
-        print(file_id)
+        self.image_id = update.message.photo[2].file_id
+        print("Image received ! ")
+        return self.image_id
 
     def aciklama(self,bot,update): ### aciklama datasini cekiyoruz
 
@@ -45,7 +42,7 @@ class Test:
         self.txt = msg
         print(self.txt)
 
-        print("DEbug First ! ")
+        print("Debug First ! ")
 
 
 
@@ -64,9 +61,8 @@ class Test:
                             text="Lütfen Konum Bilginizi Doğru Giriniz")
 
         self.ihbar_data['description'] = self.txt
-
-
-        url = photo_wrapper.download_and_save(file_id=self.image_id,file_name=str("asdasdasd"))
+        print("{}".format(update.message.message_id))
+        url = photo_wrapper.download_and_save(file_id=self.image_id,file_name=str("media/{}.png".format(update.message.message_id)))
 
         try:
             sender.warning_publish(warning_json=self.ihbar_data)
