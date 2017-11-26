@@ -3,13 +3,18 @@ import requests
 data = {}
 data["longitude"] = 12
 data["latitude"] = 12
-data["user"] = {"user_id":123,"telegram_id":"asdasd","phone":"12312312","full_name":"asd"}
+data["user"] = {}
+data["user"]["id"] = 1
+data["user"]["telegram_id"]="asdasd"
+data["user"]["phone"]= "12312312"
+data["user"]["full_name"]="asd"
 
-data["before"] = "http://localhost:8000/media/219.png"
+data["before"] = "/219.png"
+
+print(data)
 
 
-
-r = requests.put("http://127.0.0.1:8000/api/patients",data=data)
+r = requests.post("http://127.0.0.1:8000/api/patients",json=data)
 
 print(r.content)
 

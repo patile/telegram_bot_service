@@ -53,16 +53,18 @@ class Test:
 
         self.ihbar_data['latitude'] = geolocation_data["latitude"]
         self.ihbar_data['longitude'] = geolocation_data["longitude"]
+        self.ihbar_data['user'] = {}
+        self.ihbar_data['user']['telegram_id'] = update.message.from_user.id
+        self.ihbar_data['user']['full_name'] = update.message.from_user.username
+        self.ihbar_data['user']['phone'] = "123123213"
 
         print(self.ihbar_data)
-        if self.ihbar_data["longitude"] == '' or self.ihbar_data['latitude']:
-            ##bot send message
-            bot.sendMessage(chat_id=update.message.chat_id, ##validation koordinat data
-                            text="Lütfen Konum Bilginizi Doğru Giriniz")
+
 
         self.ihbar_data['description'] = self.txt
         print("{}".format(update.message.message_id))
         url = photo_wrapper.download_and_save(file_id=self.image_id,file_name=str("media/{}.png".format(update.message.message_id)))
+        self.ihbar_data['before'] = "media/{}.png".format(update.message.message_id)
 
         try:
             sender.warning_publish(warning_json=self.ihbar_data)
